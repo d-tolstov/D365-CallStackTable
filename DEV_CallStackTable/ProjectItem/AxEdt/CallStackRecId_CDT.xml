@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtInt64">
+	<Name>CallStackRecId_CDT</Name>
+	<HelpText>@Utils_CDT:CallStack</HelpText>
+	<Label>@Utils_CDT:CallStack</Label>
+	<ReferenceTable>CallStackTable_CDT</ReferenceTable>
+	<ArrayElements />
+	<Relations />
+	<TableReferences>
+		<AxEdtTableReference>
+			<RelatedField>RecId</RelatedField>
+			<Table>CallStackTable_CDT</Table>
+		</AxEdtTableReference>
+	</TableReferences>
+</AxEdt>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackLineParams_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class CallStackLineParams_CDT extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>createParam</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    static CallStackLineParams_CDT createParam(
+        Name                            _typeName
+      , Name                            _paramName
+      , CallStackLineMethodRecId_CDT    _methodRecId
+      , int                             _level
+      , UserConnection                  _connection = null
+    )
+    {
+        CallStackLineParams_CDT ret;
+        ;
+        if (!_connection)
+        {
+            _connection = new UserConnection();
+        }
+       
+        ret.setConnection(_connection);
+        ret.ttsbegin();
+        
+        ret.MethodRecId = _methodRecId;
+        ret.Level       = _level;
+        ret.TypeRecId   = CallStackLineParamType_CDT::findOrCreate(_typeName, _connection).RecId;
+        ret.Name        = _paramName;
+        ret.insert();
+
+        ret.ttscommit();        
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createParams</Name>
+				<Source><![CDATA[
+    static void createParams(
+        str                             _paramsStr
+      , CallStackLineMethodRecId_CDT    _methodRecId
+      , UserConnection                  _connection = null
+    )
+    {
+        ;
+        _paramsStr = strLRTrim(_paramsStr);
+
+        if (!_paramsStr)
+        {
+            return;
+        }
+
+        System.String   clrStr = _paramsStr;
+        System.String[] paramsArray = clrStr.Split(',');
+        for (int i=1; i <= paramsArray.Length; i++)
+        {
+            str paramStr = strLRTrim(paramsArray.GetValue(i-1));
+            int pos = strFind(paramStr, ' ', 1, 10000);
+            if (!pos)
+            {
+                continue;
+            }
+
+            str paramType  = subStr(paramStr, 1, pos - 1);
+            str paramName  = subStr(paramStr, pos + 1, strLen(paramStr) - pos);
+
+            CallStackLineParams_CDT::createParam(paramType, paramName, _methodRecId, i, _connection);
+        }
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<Label>@Utils_CDT:CallStackLineParams</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TableGroup>Framework</TableGroup>
+	<TitleField1>MethodRecId</TitleField1>
+	<TitleField2>Level</TitleField2>
+	<CacheLookup>NotInTTS</CacheLookup>
+	<PrimaryIndex>MethodLevelIdx</PrimaryIndex>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SaveDataPerPartition>No</SaveDataPerPartition>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Overview</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Level</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>TypeRecId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt64">
+			<Name>MethodRecId</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>CallStackLineMethodRecId_CDT</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>Level</Name>
+			<AllowEdit>No</AllowEdit>
+			<HelpText>@SYS2658</HelpText>
+			<Label>@SYS2658</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt64">
+			<Name>TypeRecId</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>CallStackLineParamTypeRecId_CDT</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Name</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>Name</ExtendedDataType>
+			<HelpText>@Utils_CDT:CallStackLineParamHelpText</HelpText>
+			<Label>@Utils_CDT:CallStackLineParamLabel</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>MethodLevelIdx</Name>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>MethodRecId</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>Level</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>CallStackLineMethod_CDT</Name>
+			<RelatedTable>CallStackLineMethod_CDT</RelatedTable>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>MethodRecId</Name>
+					<Field>MethodRecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>CallStackLineParamType_CDT</Name>
+			<RelatedTable>CallStackLineParamType_CDT</RelatedTable>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>TypeRecId</Name>
+					<Field>TypeRecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+	</Relations>
+	<StateMachines />
+</AxTable>

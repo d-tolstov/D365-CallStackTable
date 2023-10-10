@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxLabelFile xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>Utils_CDT_en-US</Name>
+	<LabelContentFileName>Utils_CDT.en-US.label.txt</LabelContentFileName>
+	<LabelFileId>Utils_CDT</LabelFileId>
+	<RelativeUriInModelStore>Utils_CDT\Utils_CDT\AxLabelFile\LabelResources\en-US\Utils_CDT.en-US.label.txt</RelativeUriInModelStore>
+</AxLabelFile>

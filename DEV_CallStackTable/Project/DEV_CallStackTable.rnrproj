@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <BuildTasksDirectory Condition=" '$(BuildTasksDirectory)' == ''">$(MSBuildProgramFiles32)\MSBuild\Microsoft\Dynamics\AX</BuildTasksDirectory>
+    <Model>Utils_CDT</Model>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <OutputPath>bin</OutputPath>
+    <SchemaVersion>2.0</SchemaVersion>
+    <GenerateCrossReferences>True</GenerateCrossReferences>
+    <RunAppCheckerRules>False</RunAppCheckerRules>
+    <LogAppcheckerDiagsAsErrors>False</LogAppcheckerDiagsAsErrors>
+    <DeployOnline>False</DeployOnline>
+    <ProjectGuid>{7d6ba40f-6c86-42dd-805f-c54bb75c63d5}</ProjectGuid>
+    <Name>DEV_CallStackTable</Name>
+    <RootNamespace>DEV_CallStackTable</RootNamespace>
+    <StartupType>Class</StartupType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Configuration>Debug</Configuration>
+    <DBSyncInBuild>True</DBSyncInBuild>
+    <GenerateFormAdaptors>False</GenerateFormAdaptors>
+    <Company>
+    </Company>
+    <Partition>initial</Partition>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DataEntityExpandParentChildRelations>False</DataEntityExpandParentChildRelations>
+    <DataEntityUseLabelTextAsFieldName>False</DataEntityUseLabelTextAsFieldName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Classes\" />
+    <Folder Include="Display Menu Items\" />
+    <Folder Include="Extended Data Types\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Label Files\" />
+    <Folder Include="Tables\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AxClass\CallStackHelper_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackHelper_CDT</Name>
+      <Link>Classes\CallStackHelper_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackHashKey_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackHashKey_CDT</Name>
+      <Link>Extended Data Types\CallStackHashKey_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineLevel_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineLevel_CDT</Name>
+      <Link>Extended Data Types\CallStackLineLevel_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineMethodHashKey_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineMethodHashKey_CDT</Name>
+      <Link>Extended Data Types\CallStackLineMethodHashKey_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineMethodName_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineMethodName_CDT</Name>
+      <Link>Extended Data Types\CallStackLineMethodName_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineMethodRecId_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineMethodRecId_CDT</Name>
+      <Link>Extended Data Types\CallStackLineMethodRecId_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineModelRecId_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineModelRecId_CDT</Name>
+      <Link>Extended Data Types\CallStackLineModelRecId_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineParamTypeRecId_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParamTypeRecId_CDT</Name>
+      <Link>Extended Data Types\CallStackLineParamTypeRecId_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackLineRecId_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineRecId_CDT</Name>
+      <Link>Extended Data Types\CallStackLineRecId_CDT</Link>
+    </Content>
+    <Content Include="AxEdt\CallStackRecId_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackRecId_CDT</Name>
+      <Link>Extended Data Types\CallStackRecId_CDT</Link>
+    </Content>
+    <Content Include="AxForm\CallStackLineMethod_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineMethod_CDT</Name>
+      <Link>Forms\CallStackLineMethod_CDT</Link>
+    </Content>
+    <Content Include="AxForm\CallStackLineParams_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParams_CDT</Name>
+      <Link>Forms\CallStackLineParams_CDT</Link>
+    </Content>
+    <Content Include="AxForm\CallStackLineParamType_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParamType_CDT</Name>
+      <Link>Forms\CallStackLineParamType_CDT</Link>
+    </Content>
+    <Content Include="AxForm\CallStackLine_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLine_CDT</Name>
+      <Link>Forms\CallStackLine_CDT</Link>
+    </Content>
+    <Content Include="AxForm\CallStackTable_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackTable_CDT</Name>
+      <Link>Forms\CallStackTable_CDT</Link>
+    </Content>
+    <Content Include="AxLabelFile\Utils_CDT_en-US">
+      <SubType>Content</SubType>
+      <Name>Utils_CDT_en-US</Name>
+      <Link>Label Files\Utils_CDT_en-US</Link>
+    </Content>
+    <Content Include="AxLabelFile\Utils_CDT_ru">
+      <SubType>Content</SubType>
+      <Name>Utils_CDT_ru</Name>
+      <Link>Label Files\Utils_CDT_ru</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\CallStackLineMethod_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineMethod_CDT</Name>
+      <Link>Display Menu Items\CallStackLineMethod_CDT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\CallStackLineParams_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParams_CDT</Name>
+      <Link>Display Menu Items\CallStackLineParams_CDT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\CallStackLineParamType_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParamType_CDT</Name>
+      <Link>Display Menu Items\CallStackLineParamType_CDT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\CallStackLine_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLine_CDT</Name>
+      <Link>Display Menu Items\CallStackLine_CDT</Link>
+    </Content>
+    <Content Include="AxMenuItemDisplay\CallStackTable_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackTable_CDT</Name>
+      <Link>Display Menu Items\CallStackTable_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackLineLinks_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineLinks_CDT</Name>
+      <Link>Tables\CallStackLineLinks_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackLineMethod_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineMethod_CDT</Name>
+      <Link>Tables\CallStackLineMethod_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackLineModel_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineModel_CDT</Name>
+      <Link>Tables\CallStackLineModel_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackLineParams_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParams_CDT</Name>
+      <Link>Tables\CallStackLineParams_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackLineParamType_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLineParamType_CDT</Name>
+      <Link>Tables\CallStackLineParamType_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackLine_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackLine_CDT</Name>
+      <Link>Tables\CallStackLine_CDT</Link>
+    </Content>
+    <Content Include="AxTable\CallStackTable_CDT">
+      <SubType>Content</SubType>
+      <Name>CallStackTable_CDT</Name>
+      <Link>Tables\CallStackTable_CDT</Link>
+    </Content>
+    <Content Include="Utils_CDT.en-US.label.txt">
+      <SubType>Content</SubType>
+      <Name>Utils_CDT.en-US.label.txt</Name>
+      <DependentUpon>AxLabelFile\Utils_CDT_en-US</DependentUpon>
+    </Content>
+    <Content Include="Utils_CDT.ru.label.txt">
+      <SubType>Content</SubType>
+      <Name>Utils_CDT.ru.label.txt</Name>
+      <DependentUpon>AxLabelFile\Utils_CDT_ru</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(BuildTasksDirectory)\Microsoft.Dynamics.Framework.Tools.BuildTasks.targets" />
+</Project>

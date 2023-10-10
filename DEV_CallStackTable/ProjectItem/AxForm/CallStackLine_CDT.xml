@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxForm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V6">
+	<Name>CallStackLine_CDT</Name>
+	<SourceCode>
+		<Methods xmlns="">
+			<Method>
+				<Name>classDeclaration</Name>
+				<Source><![CDATA[
+[Form]
+public class CallStackLine_CDT extends FormRun
+{
+}
+]]></Source>
+			</Method>
+		</Methods>
+		<DataSources xmlns="">
+			<DataSource>
+				<Name>CallStackLineMethod_CDT</Name>
+				<Methods>
+					<Method>
+						<Name>init</Name>
+						<Source><![CDATA[
+        /// <summary>
+        ///
+        /// </summary>
+        public void init()
+        {
+            super();
+
+            switch (element.args().dataset())
+            {
+                case tableNum(CallStackLineMethod_CDT):
+                    this.queryBuildDataSource().addDynalink(fieldNum(CallStackLineMethod_CDT,RecId), element.args().record(), fieldNum(CallStackLineMethod_CDT,RecId));
+                    break;
+            }
+        }
+
+]]></Source>
+					</Method>
+				</Methods>
+				<Fields />
+			</DataSource>
+		</DataSources>
+		<DataControls xmlns="" />
+		<Members xmlns="" />
+	</SourceCode>
+	<DataSources>
+		<AxFormDataSource xmlns="">
+			<Name>CallStackLine_CDT</Name>
+			<Table>CallStackLine_CDT</Table>
+			<Fields>
+				<AxFormDataSourceField>
+					<DataField>Line</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>MethodRecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>ModelRecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TableId</DataField>
+				</AxFormDataSourceField>
+			</Fields>
+			<ReferencedDataSources>
+				<AxFormReferencedDataSource>
+					<Name>CallStackLineModel_CDT</Name>
+					<Table>CallStackLineModel_CDT</Table>
+					<Fields>
+						<AxFormDataSourceField>
+							<DataField>Name</DataField>
+						</AxFormDataSourceField>
+						<AxFormDataSourceField>
+							<DataField>Publisher</DataField>
+						</AxFormDataSourceField>
+						<AxFormDataSourceField>
+							<DataField>RecId</DataField>
+						</AxFormDataSourceField>
+						<AxFormDataSourceField>
+							<DataField>TableId</DataField>
+						</AxFormDataSourceField>
+					</Fields>
+					<ReferencedDataSources />
+					<JoinSource>CallStackLine_CDT</JoinSource>
+					<LinkType>OuterJoin</LinkType>
+					<JoinRelation>CallStackLineModel_CDT</JoinRelation>
+				</AxFormReferencedDataSource>
+			</ReferencedDataSources>
+			<JoinSource>CallStackLineMethod_CDT</JoinSource>
+			<LinkType>InnerJoin</LinkType>
+			<AllowCreate>No</AllowCreate>
+			<AllowDelete>No</AllowDelete>
+			<AllowEdit>No</AllowEdit>
+			<DataSourceLinks />
+			<DerivedDataSources />
+		</AxFormDataSource>
+		<AxFormDataSource xmlns="">
+			<Name>CallStackLineMethod_CDT</Name>
+			<Table>CallStackLineMethod_CDT</Table>
+			<Fields>
+				<AxFormDataSourceField>
+					<DataField>FullName</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>HashKey</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>Name</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TableId</DataField>
+				</AxFormDataSourceField>
+			</Fields>
+			<ReferencedDataSources />
+			<Index>NameIdx</Index>
+			<DataSourceLinks />
+			<DerivedDataSources />
+		</AxFormDataSource>
+		<AxFormDataSource xmlns="">
+			<Name>CallStackLineParams_CDT</Name>
+			<Table>CallStackLineParams_CDT</Table>
+			<Fields>
+				<AxFormDataSourceField>
+					<DataField>Level</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>MethodRecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>Name</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TableId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TypeRecId</DataField>
+				</AxFormDataSourceField>
+			</Fields>
+			<ReferencedDataSources />
+			<JoinSource>CallStackLineMethod_CDT</JoinSource>
+			<AllowCreate>No</AllowCreate>
+			<AllowDelete>No</AllowDelete>
+			<AllowEdit>No</AllowEdit>
+			<InsertIfEmpty>No</InsertIfEmpty>
+			<DataSourceLinks />
+			<DerivedDataSources />
+		</AxFormDataSource>
+		<AxFormDataSource xmlns="">
+			<Name>CallStackLineParamType_CDT</Name>
+			<Table>CallStackLineParamType_CDT</Table>
+			<Fields>
+				<AxFormDataSourceField>
+					<DataField>Name</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TableId</DataField>
+				</AxFormDataSourceField>
+			</Fields>
+			<ReferencedDataSources />
+			<JoinSource>CallStackLineParams_CDT</JoinSource>
+			<LinkType>InnerJoin</LinkType>
+			<AllowCreate>No</AllowCreate>
+			<AllowDelete>No</AllowDelete>
+			<AllowEdit>No</AllowEdit>
+			<InsertIfEmpty>No</InsertIfEmpty>
+			<DataSourceLinks />
+			<DerivedDataSources />
+		</AxFormDataSource>
+	</DataSources>
+	<Design>
+		<Caption xmlns="">@Utils_CDT:CallStackLines</Caption>
+		<DataSource xmlns="">CallStackLine_CDT</DataSource>
+		<Pattern xmlns="">Custom</Pattern>
+		<Style xmlns="">SimpleList</Style>
+		<Controls xmlns="">
+			<AxFormControl xmlns=""
+				i:type="AxFormActionPaneControl">
+				<Name>FormActionPaneControl</Name>
+				<Type>ActionPane</Type>
+				<FormControlExtension
+					i:nil="true" />
+				<Controls>
+					<AxFormControl xmlns=""
+						i:type="AxFormButtonGroupControl">
+						<Name>MainButtonGroup</Name>
+						<Type>ButtonGroup</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormMenuFunctionButtonControl">
+								<Name>CallStackTable_CDT</Name>
+								<Type>MenuFunctionButton</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataSource>CallStackLine_CDT</DataSource>
+								<MenuItemName>CallStackTable_CDT</MenuItemName>
+							</AxFormControl>
+						</Controls>
+					</AxFormControl>
+				</Controls>
+			</AxFormControl>
+			<AxFormControl xmlns=""
+				i:type="AxFormGroupControl">
+				<Name>CustomQuickFilter</Name>
+				<Pattern>CustomAndQuickFilters</Pattern>
+				<PatternVersion>1.1</PatternVersion>
+				<Type>Group</Type>
+				<WidthMode>SizeToAvailable</WidthMode>
+				<FormControlExtension
+					i:nil="true" />
+				<Controls>
+					<AxFormControl>
+						<Name>QuickFilterControl</Name>
+						<FormControlExtension>
+							<Name>QuickFilterControl</Name>
+							<ExtensionComponents />
+							<ExtensionProperties>
+								<AxFormControlExtensionProperty>
+									<Name>targetControlName</Name>
+									<Type>String</Type>
+								</AxFormControlExtensionProperty>
+								<AxFormControlExtensionProperty>
+									<Name>placeholderText</Name>
+									<Type>String</Type>
+								</AxFormControlExtensionProperty>
+								<AxFormControlExtensionProperty>
+									<Name>defaultColumnName</Name>
+									<Type>String</Type>
+								</AxFormControlExtensionProperty>
+							</ExtensionProperties>
+						</FormControlExtension>
+					</AxFormControl>
+				</Controls>
+				<ArrangeMethod>HorizontalLeft</ArrangeMethod>
+				<DataSource>CallStackLine_CDT</DataSource>
+				<FrameType>None</FrameType>
+				<Style>CustomFilter</Style>
+				<ViewEditMode>Edit</ViewEditMode>
+			</AxFormControl>
+			<AxFormControl xmlns=""
+				i:type="AxFormGroupControl">
+				<Name>MainGroup</Name>
+				<HeightMode>SizeToAvailable</HeightMode>
+				<Type>Group</Type>
+				<WidthMode>SizeToAvailable</WidthMode>
+				<FormControlExtension
+					i:nil="true" />
+				<Controls>
+					<AxFormControl xmlns=""
+						i:type="AxFormGridControl">
+						<Name>FormGridControl</Name>
+						<Type>Grid</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormGroupControl">
+								<Name>MethodOverview</Name>
+								<Type>Group</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Controls>
+									<AxFormControl xmlns=""
+										i:type="AxFormGuidControl">
+										<Name>Overview_HashKey</Name>
+										<Type>Guid</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>HashKey</DataField>
+										<DataSource>CallStackLineMethod_CDT</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>Overview_Name</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>Name</DataField>
+										<DataSource>CallStackLineMethod_CDT</DataSource>
+									</AxFormControl>
+								</Controls>
+								<DataGroup>Overview</DataGroup>
+								<DataSource>CallStackLineMethod_CDT</DataSource>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormIntegerControl">
+								<Name>CallStackLine_CDT_Line</Name>
+								<Type>Integer</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<DataField>Line</DataField>
+								<DataSource>CallStackLine_CDT</DataSource>
+							</AxFormControl>
+							<AxFormControl xmlns=""
+								i:type="AxFormGroupControl">
+								<Name>ModelOverview</Name>
+								<Type>Group</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Controls>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>Overview1_Name</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>Name</DataField>
+										<DataSource>CallStackLineModel_CDT</DataSource>
+									</AxFormControl>
+								</Controls>
+								<DataGroup>Overview</DataGroup>
+								<DataSource>CallStackLineModel_CDT</DataSource>
+							</AxFormControl>
+						</Controls>
+						<DataSource>CallStackLine_CDT</DataSource>
+						<Style>Tabular</Style>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormGroupControl">
+						<Name>Splitter_Params</Name>
+						<Type>Group</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls />
+						<Style>SplitterVerticalContainer</Style>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormGroupControl">
+						<Name>GroupParams</Name>
+						<HeightMode>SizeToAvailable</HeightMode>
+						<Type>Group</Type>
+						<WidthMode>SizeToAvailable</WidthMode>
+						<FormControlExtension
+							i:nil="true" />
+						<Controls>
+							<AxFormControl xmlns=""
+								i:type="AxFormGridControl">
+								<Name>GridParams</Name>
+								<Type>Grid</Type>
+								<FormControlExtension
+									i:nil="true" />
+								<Controls>
+									<AxFormControl xmlns=""
+										i:type="AxFormIntegerControl">
+										<Name>CallStackLineParams_CDT_Level</Name>
+										<Type>Integer</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>Level</DataField>
+										<DataSource>CallStackLineParams_CDT</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>CallStackLineParamType_CDT_Name</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>Name</DataField>
+										<DataSource>CallStackLineParamType_CDT</DataSource>
+									</AxFormControl>
+									<AxFormControl xmlns=""
+										i:type="AxFormStringControl">
+										<Name>CallStackLineParams_CDT_Name</Name>
+										<Type>String</Type>
+										<FormControlExtension
+											i:nil="true" />
+										<DataField>Name</DataField>
+										<DataSource>CallStackLineParams_CDT</DataSource>
+									</AxFormControl>
+								</Controls>
+								<DataSource>CallStackLineParams_CDT</DataSource>
+							</AxFormControl>
+						</Controls>
+						<Caption>@Utils_CDT:CallStackLineParams</Caption>
+					</AxFormControl>
+				</Controls>
+				<Columns>3</Columns>
+				<FrameType>None</FrameType>
+			</AxFormControl>
+		</Controls>
+	</Design>
+	<Parts />
+</AxForm>

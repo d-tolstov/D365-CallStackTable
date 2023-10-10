@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxEdt xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns=""
+	i:type="AxEdtString">
+	<Name>CallStackLineMethodName_CDT</Name>
+	<HelpText>@Utils_CDT:CallStackLineMethod</HelpText>
+	<Label>@Utils_CDT:CallStackLineMethod</Label>
+	<ArrayElements />
+	<Relations />
+	<TableReferences />
+	<StringSize>180</StringSize>
+</AxEdt>

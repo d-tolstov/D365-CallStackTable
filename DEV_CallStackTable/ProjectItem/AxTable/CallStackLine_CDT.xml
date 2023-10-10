@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackLine_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class CallStackLine_CDT extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static CallStackLine_CDT find(
+        CallStackLineMethodRecId_CDT    _methodRecId
+      , Line                            _line
+      , CallStackLineModelRecId_CDT     _modelRecId
+      , boolean                         _forUpdate = false
+    )
+    {
+        CallStackLine_CDT callStackLine;
+        ;
+        if (_methodRecId)
+        {
+            callStackLine.selectForUpdate(_forUpdate);
+            
+            select firstonly callStackLine
+             where callStackLine.MethodRecId    == _methodRecId
+                && callStackLine.Line           == _line
+                && callStackLine.ModelRecId     == _modelRecId
+            ;
+        }
+        
+        return callStackLine;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>findOrCreate</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static CallStackLine_CDT findOrCreate(
+        str         _methodStr
+      , Line        _line
+      , Name        _modelName
+      , Name        _publisher
+      , UserConnection  _connection = null
+    )
+    {
+        CallStackLine_CDT ret;
+    ;
+        CallStackLineMethodRecId_CDT methodRecId = CallStackLineMethod_CDT::findOrCreate(_methodStr, _connection).RecId;
+        CallStackLineModelRecId_CDT modelRecId = CallStackLineModel_CDT::findOrCreate(_modelName, _publisher, _connection).RecId;
+
+        ret  = CallStackLine_CDT::find(methodRecId, _line, modelRecId);
+        if (ret)
+        {
+            return ret;
+        }
+
+        try
+        {
+            if (!_connection)
+            {
+                _connection = new UserConnection();
+            }
+        
+            ret.setConnection(_connection);
+            ret.ttsbegin();
+        
+            ret.ModelRecId  = modelRecId;
+            ret.MethodRecId = methodRecId;
+            ret.Line        = _line;
+            ret.insert();
+
+            ret.ttscommit();
+        }
+        catch (Exception::DuplicateKeyException)
+        {
+            ret  = CallStackLine_CDT::find(methodRecId, _line, modelRecId);
+        }
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<Label>@Utils_CDT:CallStackLines</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TableGroup>Framework</TableGroup>
+	<TitleField1>MethodRecId</TitleField1>
+	<TitleField2>Line</TitleField2>
+	<CacheLookup>NotInTTS</CacheLookup>
+	<PrimaryIndex>IdIdx</PrimaryIndex>
+	<ReplacementKey>IdIdx</ReplacementKey>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SaveDataPerPartition>No</SaveDataPerPartition>
+	<DeleteActions>
+		<AxTableDeleteAction>
+			<Name>DeleteAction1</Name>
+			<DeleteAction>Restricted</DeleteAction>
+			<Relation>CallStackLine_CDT</Relation>
+			<Table>CallStackLineLinks_CDT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+	</DeleteActions>
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>MethodRecId</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Line</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>ModelRecId</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Overview</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Line</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt64">
+			<Name>MethodRecId</Name>
+			<ExtendedDataType>CallStackLineMethodRecId_CDT</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt64">
+			<Name>ModelRecId</Name>
+			<ExtendedDataType>CallStackLineModelRecId_CDT</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>Line</Name>
+			<ExtendedDataType>Line</ExtendedDataType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>IdIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>MethodRecId</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>Line</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>ModelRecId</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>CallStackLineMethod_CDT</Name>
+			<RelatedTable>CallStackLineMethod_CDT</RelatedTable>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>MethodRecId</Name>
+					<Field>MethodRecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>CallStackLineModel_CDT</Name>
+			<RelatedTable>CallStackLineModel_CDT</RelatedTable>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>ModelRecId</Name>
+					<Field>ModelRecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+	</Relations>
+	<StateMachines />
+</AxTable>

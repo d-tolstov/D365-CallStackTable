@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackLineModel_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class CallStackLineModel_CDT extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static CallStackLineModel_CDT find(
+        Name        _modelName
+      , boolean     _forUpdate = false
+    )
+    {
+        CallStackLineModel_CDT callStackLineModel;
+        ;
+        if (_modelName)
+        {
+            callStackLineModel.selectForUpdate(_forUpdate);
+            
+            select firstonly callStackLineModel
+                where callStackLineModel.Name  == _modelName;
+        }
+        
+        return callStackLineModel;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>findOrCreate</Name>
+				<Source><![CDATA[
+    public static CallStackLineModel_CDT findOrCreate(
+        Name        _modelName
+      , Name        _publisher
+      , UserConnection  _connection = null
+    )
+    {
+        CallStackLineModel_CDT callStackLineModel;
+    ;
+        callStackLineModel  = CallStackLineModel_CDT::find(_modelName);
+        if (callStackLineModel)
+        {
+            return callStackLineModel;
+        }
+
+        if (!_connection)
+        {
+            _connection = new UserConnection();
+        }
+
+        try
+        {
+            callStackLineModel.setConnection(_connection);
+            callStackLineModel.ttsbegin();
+
+            callStackLineModel.Name         = _modelName;
+            callStackLineModel.Publisher    = _publisher;
+        
+            callStackLineModel.insert();
+
+            callStackLineModel.ttscommit();
+        }
+        catch (Exception::DuplicateKeyException)
+        {
+            callStackLineModel  = CallStackLineModel_CDT::find(_modelName);
+        }
+
+        return callStackLineModel;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<Label>@Utils_CDT:CallStackLineModel</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TableGroup>Framework</TableGroup>
+	<TitleField1>Name</TitleField1>
+	<TitleField2>Publisher</TitleField2>
+	<CacheLookup>NotInTTS</CacheLookup>
+	<ClusteredIndex>NameIdx</ClusteredIndex>
+	<PrimaryIndex>NameIdx</PrimaryIndex>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SaveDataPerPartition>No</SaveDataPerPartition>
+	<DeleteActions>
+		<AxTableDeleteAction>
+			<Name>DeleteAction1</Name>
+			<DeleteAction>Restricted</DeleteAction>
+			<Relation>CallStackLineModel_CDT</Relation>
+			<Table>CallStackLine_CDT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+	</DeleteActions>
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Overview</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Publisher</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Name</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>Name</ExtendedDataType>
+			<Label>@Utils_CDT:CallStackLineModel</Label>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Publisher</Name>
+			<ExtendedDataType>Name</ExtendedDataType>
+			<Label>@SYS305181</Label>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>NameIdx</Name>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>Name</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxClass xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackHelper_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+class CallStackHelper_CDT
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>getHash</Name>
+				<Source><![CDATA[
+    public static HashKey getHash(str _paramStr)
+    {
+        HashKey                             hashKey;
+        System.Security.Cryptography.MD5    md5;
+        System.Text.Encoding                encoding;
+        System.Byte[]                       hashBytes;
+
+        md5         = System.Security.Cryptography.MD5::Create();
+        encoding    = System.Text.Encoding::UTF8;
+        hashBytes   = md5.ComputeHash(encoding.GetBytes(_paramStr));
+        hashKey     = new System.Guid(hashBytes);
+
+        return hashKey;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+</AxClass>

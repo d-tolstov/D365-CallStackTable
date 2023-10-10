@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackLineMethod_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class CallStackLineMethod_CDT extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    public static CallStackLineMethod_CDT find(
+        CallStackLineMethodHashKey_CDT  _hashKey
+      , boolean                         _forUpdate = false)
+    {
+        CallStackLineMethod_CDT callStackLineMethod;
+        ;
+        if (_hashKey)
+        {
+            callStackLineMethod.selectForUpdate(_forUpdate);
+            
+            select firstonly callStackLineMethod
+                where callStackLineMethod.HashKey  == _hashKey;
+        }
+        
+        return callStackLineMethod;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>findOrCreate</Name>
+				<Source><![CDATA[
+    public static CallStackLineMethod_CDT findOrCreate(
+        str                 _methodStr
+      , UserConnection      _connection = null
+    )
+    {
+        CallStackLineMethod_CDT ret;
+        CallStackLineMethodHashKey_CDT hashKey = CallStackHelper_CDT::getHash(_methodStr);
+        
+        ret = CallStackLineMethod_CDT::find(hashKey);
+        if (ret)
+        {
+            return ret;
+        }
+
+        int pos,pos2;
+        str paramsStr;
+        str methodName = _methodStr;
+
+        // Выделяем из функцию тип объекта
+        pos = strFind(methodName,'[',1,10000);
+        if (pos)
+        {
+            pos2 = strFind(methodName,']',pos,10000);
+            str objectName = subStr(methodName, pos + 1, pos2 - pos - 1);
+            methodName = CallStackLineMethod_CDT::objectName2Prefix(objectName) + strDel(methodName, pos, pos2 - pos + 1);
+        }
+
+        // Вырезаем из строки параметры
+        pos = strFind(methodName,'(',1,10000);
+        if (pos)
+        {
+            pos2        = strFind(methodName,')',pos,10000);
+            paramsStr   = subStr(methodName, pos + 1, pos2 - pos - 1);
+            
+            methodName       = strDel(methodName, pos, pos2 - pos + 1);
+        }
+
+        if (!_connection)
+        {
+            _connection = new UserConnection();
+        }
+
+        ret.setConnection(_connection);
+        ret.ttsbegin();
+
+        ret.HashKey     = hashKey;
+        ret.Name        = methodName;
+        ret.FullName    = _methodStr;
+        ret.insert();
+
+        CallStackLineParams_CDT::createParams(paramsStr, ret.RecId, _connection);
+
+        ret.ttscommit();
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>objectName2Prefix</Name>
+				<Source><![CDATA[
+    static str objectName2Prefix(str _objectName)
+    {
+        str ret;
+
+        switch (_objectName)
+        {
+            case "":
+                break;
+
+            case "table":
+                ret = @"Data Dictionary\Tables\";
+                break;
+
+            case "class":
+                ret = @"Classes\";
+                break;
+
+            case "form":
+                ret = @"Forms\";
+                break;
+        }
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<Label>@Utils_CDT:CallStackLineMethodTable</Label>
+	<TableGroup>Framework</TableGroup>
+	<TitleField1>Name</TitleField1>
+	<TitleField2>HashKey</TitleField2>
+	<CacheLookup>NotInTTS</CacheLookup>
+	<PrimaryIndex>HashKeyIdx</PrimaryIndex>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SaveDataPerPartition>No</SaveDataPerPartition>
+	<DeleteActions>
+		<AxTableDeleteAction>
+			<Name>DeleteAction1</Name>
+			<DeleteAction>Restricted</DeleteAction>
+			<Relation>CallStackLineMethod_CDT</Relation>
+			<Table>CallStackLineParams_CDT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+		<AxTableDeleteAction>
+			<Name>DeleteAction2</Name>
+			<DeleteAction>Restricted</DeleteAction>
+			<Relation>CallStackLineMethod_CDT</Relation>
+			<Table>CallStackLine_CDT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+	</DeleteActions>
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<IsSystemGenerated>Yes</IsSystemGenerated>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<IsSystemGenerated>Yes</IsSystemGenerated>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<IsSystemGenerated>Yes</IsSystemGenerated>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<IsSystemGenerated>Yes</IsSystemGenerated>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<IsSystemGenerated>Yes</IsSystemGenerated>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Overview</Name>
+			<Label>Overview</Label>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Name</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Name</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>CallStackLineMethodName_CDT</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldGuid">
+			<Name>HashKey</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>CallStackLineMethodHashKey_CDT</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>FullName</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>Notes</ExtendedDataType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>HashKeyIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>HashKey</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+		<AxTableIndex>
+			<Name>NameIdx</Name>
+			<AllowDuplicates>Yes</AllowDuplicates>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>Name</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

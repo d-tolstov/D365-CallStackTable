@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackLineLinks_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class CallStackLineLinks_CDT extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static CallStackLineLinks_CDT find(
+        CallStackRecId_CDT      _callStackRecId
+      , CallStackLineLevel_CDT  _level
+      , boolean                 _forUpdate = false
+    )
+    {
+        CallStackLineLinks_CDT callStackLineLinks;
+        ;
+        if (_callStackRecId)
+        {
+            callStackLineLinks.selectForUpdate(_forUpdate);
+            
+            select firstonly callStackLineLinks
+             where callStackLineLinks.CallStackRecId    == _callStackRecId
+                && callStackLineLinks.Level             == _level
+            ;
+        }
+        
+        return callStackLineLinks;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createLinks</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    static void createLinks(
+        container _callStack
+      , CallStackRecId_CDT _callStackRecId
+      , UserConnection _connection = null
+    )
+    {
+        for (int i=1; i<=conLen(_callStack); i+=4)
+        {
+            CallStackLineLinks_CDT::createLink(
+                  conPeek(_callStack,i)
+                , conPeek(_callStack,i+1)
+                , conPeek(_callStack,i+3)
+                , conPeek(_callStack,i+2)
+                , any2Int(((i - 1) / 4)) + 1
+                , _callStackRecId
+                , _connection
+            );
+        }
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>createLink</Name>
+				<Source><![CDATA[
+    static void createLink(
+        str                 _methodStr
+      , Line                _line
+      , Name                _modelName
+      , Name                _publisher
+      , int                 _level
+      , CallStackRecId_CDT  _callStackRecId
+      , UserConnection      _connection = null
+    )
+    {
+        CallStackLineLinks_CDT  link;
+
+        if (!_connection)
+        {
+            _connection = new UserConnection();
+        }
+
+        link.setConnection(_connection);
+        link.ttsbegin();
+
+        link.CallStackRecId = _callStackRecId;
+        link.Level          = _level;
+        link.LineRecId      = CallStackLine_CDT::findOrCreate(_methodStr, _line, _modelName, _publisher, _connection).RecId;
+        link.insert();
+
+        link.ttscommit();
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TableGroup>Framework</TableGroup>
+	<CacheLookup>NotInTTS</CacheLookup>
+	<PrimaryIndex>StackLevelIdx</PrimaryIndex>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SaveDataPerPartition>No</SaveDataPerPartition>
+	<DeleteActions />
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Overview</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>Level</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt64">
+			<Name>CallStackRecId</Name>
+			<ExtendedDataType>CallStackRecId_CDT</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt">
+			<Name>Level</Name>
+			<ExtendedDataType>CallStackLineLevel_CDT</ExtendedDataType>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldInt64">
+			<Name>LineRecId</Name>
+			<ExtendedDataType>CallStackLineRecId_CDT</ExtendedDataType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>StackLevelIdx</Name>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>CallStackRecId</DataField>
+				</AxTableIndexField>
+				<AxTableIndexField>
+					<DataField>Level</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>CallStackTable_CDT</Name>
+			<RelatedTable>CallStackTable_CDT</RelatedTable>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>CallStackRecId</Name>
+					<Field>CallStackRecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+		<AxTableRelation xmlns=""
+			i:type="AxTableRelationForeignKey">
+			<Name>CallStackLine_CDT</Name>
+			<RelatedTable>CallStackLine_CDT</RelatedTable>
+			<Constraints>
+				<AxTableRelationConstraint xmlns=""
+					i:type="AxTableRelationConstraintField">
+					<Name>LineRecId</Name>
+					<Field>LineRecId</Field>
+					<RelatedField>RecId</RelatedField>
+				</AxTableRelationConstraint>
+			</Constraints>
+			<Index>RecId</Index>
+		</AxTableRelation>
+	</Relations>
+	<StateMachines />
+</AxTable>

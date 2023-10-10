@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxTable xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Name>CallStackTable_CDT</Name>
+	<SourceCode>
+		<Declaration><![CDATA[
+public class CallStackTable_CDT extends common
+{
+}
+]]></Declaration>
+		<Methods>
+			<Method>
+				<Name>find</Name>
+				<Source><![CDATA[
+    /// <summary>
+    ///
+    /// </summary>
+    public static CallStackTable_CDT find(
+        CallStackHashKey_CDT  _hashKey
+      , boolean               _forUpdate = false)
+    {
+        CallStackTable_CDT ret;
+        ;
+        if (_hashKey)
+        {
+            ret.selectForUpdate(_forUpdate);
+            
+            select firstonly ret
+                where ret.HashKey  == _hashKey;
+        }
+        
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>findOrCreate</Name>
+				<Source><![CDATA[
+    public static CallStackTable_CDT findOrCreate(container   _callStack, UserConnection _connection = null)
+    {
+        CallStackTable_CDT ret;
+    ;
+        if (!SysCatchTable_CDT::catchEnabledWithoutCache(SysCatchType_CDT::CallStackEnabled))
+        {
+            return ret;
+        }
+
+        CallStackHashKey_CDT hashKey = CallStackTable_CDT::callStack2HashKey(_callStack);
+
+        ret = CallStackTable_CDT::find(hashKey);
+        if (ret)
+        {
+            return ret;
+        }
+
+        if (!_connection)
+        {
+            _connection = new UserConnection();
+        }
+        
+        try
+        {
+            ret.setConnection(_connection);
+            ret.ttsbegin();
+
+            ret.HashKey     = hashKey;
+            ret.CallStack   = _callStack;
+            ret.insert();
+
+            ret.ttscommit();
+        }
+        catch (Exception::DuplicateKeyException)
+        {
+            return CallStackTable_CDT::find(hashKey);
+        }
+
+        CallStackLineLinks_CDT::createLinks(_callStack, ret.RecId, _connection);
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+			<Method>
+				<Name>callStack2HashKey</Name>
+				<Source><![CDATA[
+    public static CallStackHashKey_CDT callStack2HashKey(container _callStack)
+    {
+        CallStackHashKey_CDT    ret;
+        str callStackStr;
+
+        for (int i=1; i<=conLen(_callStack); i+=4)
+        {
+            callStackStr += strFmt("%1#%2#%3#%4\n"
+                , conPeek(_callStack,i)
+                , conPeek(_callStack,i+1)
+                , conPeek(_callStack,i+2)
+                , conPeek(_callStack,i+3)
+            );
+        }
+        ret = CallStackHelper_CDT::getHash(callStackStr);
+
+        return ret;
+    }
+
+]]></Source>
+			</Method>
+		</Methods>
+	</SourceCode>
+	<Label>@Utils_CDT:CallStack</Label>
+	<SubscriberAccessLevel>
+		<Read>Allow</Read>
+	</SubscriberAccessLevel>
+	<TableGroup>Framework</TableGroup>
+	<TitleField1>HashKey</TitleField1>
+	<TitleField2>Description</TitleField2>
+	<CacheLookup>NotInTTS</CacheLookup>
+	<PrimaryIndex>HashKeyIdx</PrimaryIndex>
+	<SaveDataPerCompany>No</SaveDataPerCompany>
+	<SaveDataPerPartition>No</SaveDataPerPartition>
+	<DeleteActions>
+		<AxTableDeleteAction>
+			<Name>DeleteAction1</Name>
+			<DeleteAction>Cascade</DeleteAction>
+			<Relation>CallStackTable_CDT</Relation>
+			<Table>CallStackLineLinks_CDT</Table>
+			<Tags></Tags>
+		</AxTableDeleteAction>
+	</DeleteActions>
+	<FieldGroups>
+		<AxTableFieldGroup>
+			<Name>AutoReport</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoLookup</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoIdentification</Name>
+			<AutoPopulate>Yes</AutoPopulate>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoSummary</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>AutoBrowse</Name>
+			<Fields />
+		</AxTableFieldGroup>
+		<AxTableFieldGroup>
+			<Name>Overview</Name>
+			<Fields>
+				<AxTableFieldGroupField>
+					<DataField>HashKey</DataField>
+				</AxTableFieldGroupField>
+				<AxTableFieldGroupField>
+					<DataField>Description</DataField>
+				</AxTableFieldGroupField>
+			</Fields>
+		</AxTableFieldGroup>
+	</FieldGroups>
+	<Fields>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldGuid">
+			<Name>HashKey</Name>
+			<AllowEdit>No</AllowEdit>
+			<ExtendedDataType>CallStackHashKey_CDT</ExtendedDataType>
+			<Mandatory>Yes</Mandatory>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldContainer">
+			<Name>CallStack</Name>
+			<AllowEdit>No</AllowEdit>
+			<AllowEditOnCreate>No</AllowEditOnCreate>
+			<HelpText>@Utils_CDT:CallStack</HelpText>
+			<Label>@Utils_CDT:CallStack</Label>
+		</AxTableField>
+		<AxTableField xmlns=""
+			i:type="AxTableFieldString">
+			<Name>Description</Name>
+			<ExtendedDataType>Description255</ExtendedDataType>
+		</AxTableField>
+	</Fields>
+	<FullTextIndexes />
+	<Indexes>
+		<AxTableIndex>
+			<Name>HashKeyIdx</Name>
+			<AlternateKey>Yes</AlternateKey>
+			<Fields>
+				<AxTableIndexField>
+					<DataField>HashKey</DataField>
+				</AxTableIndexField>
+			</Fields>
+		</AxTableIndex>
+	</Indexes>
+	<Mappings />
+	<Relations />
+	<StateMachines />
+</AxTable>

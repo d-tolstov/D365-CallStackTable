@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AxForm xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="Microsoft.Dynamics.AX.Metadata.V6">
+	<Name>CallStackLineParams_CDT</Name>
+	<SourceCode>
+		<Methods xmlns="">
+			<Method>
+				<Name>classDeclaration</Name>
+				<Source><![CDATA[
+[Form]
+public class CallStackLineParams_CDT extends FormRun
+{
+}
+]]></Source>
+			</Method>
+		</Methods>
+		<DataSources xmlns="" />
+		<DataControls xmlns="" />
+		<Members xmlns="" />
+	</SourceCode>
+	<DataSources>
+		<AxFormDataSource xmlns="">
+			<Name>CallStackLineParams_CDT</Name>
+			<Table>CallStackLineParams_CDT</Table>
+			<Fields>
+				<AxFormDataSourceField>
+					<DataField>Level</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>MethodRecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>Name</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>RecId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TableId</DataField>
+				</AxFormDataSourceField>
+				<AxFormDataSourceField>
+					<DataField>TypeRecId</DataField>
+				</AxFormDataSourceField>
+			</Fields>
+			<ReferencedDataSources>
+				<AxFormReferencedDataSource>
+					<Name>CallStackLineParamType_CDT</Name>
+					<Table>CallStackLineParamType_CDT</Table>
+					<Fields>
+						<AxFormDataSourceField>
+							<DataField>Name</DataField>
+						</AxFormDataSourceField>
+						<AxFormDataSourceField>
+							<DataField>RecId</DataField>
+						</AxFormDataSourceField>
+						<AxFormDataSourceField>
+							<DataField>TableId</DataField>
+						</AxFormDataSourceField>
+					</Fields>
+					<ReferencedDataSources />
+					<JoinSource>CallStackLineParams_CDT</JoinSource>
+					<LinkType>OuterJoin</LinkType>
+					<JoinRelation>CallStackLineParamType_CDT</JoinRelation>
+				</AxFormReferencedDataSource>
+			</ReferencedDataSources>
+			<AllowCreate>No</AllowCreate>
+			<AllowDelete>No</AllowDelete>
+			<AllowEdit>No</AllowEdit>
+			<InsertIfEmpty>No</InsertIfEmpty>
+			<DataSourceLinks />
+			<DerivedDataSources />
+		</AxFormDataSource>
+	</DataSources>
+	<Design>
+		<Pattern xmlns="">FormPartFactboxGrid</Pattern>
+		<PatternVersion xmlns="">1.1</PatternVersion>
+		<Style xmlns="">FormPart</Style>
+		<Controls xmlns="">
+			<AxFormControl xmlns=""
+				i:type="AxFormGridControl">
+				<Name>ParamsGrid</Name>
+				<AllowEdit>No</AllowEdit>
+				<Type>Grid</Type>
+				<FormControlExtension
+					i:nil="true" />
+				<Controls>
+					<AxFormControl xmlns=""
+						i:type="AxFormIntegerControl">
+						<Name>ParamsGrid_Level</Name>
+						<Type>Integer</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>Level</DataField>
+						<DataSource>CallStackLineParams_CDT</DataSource>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormStringControl">
+						<Name>CallStackLineParamType_CDT_Name</Name>
+						<Type>String</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>Name</DataField>
+						<DataSource>CallStackLineParamType_CDT</DataSource>
+					</AxFormControl>
+					<AxFormControl xmlns=""
+						i:type="AxFormStringControl">
+						<Name>ParamsGrid_Name</Name>
+						<Type>String</Type>
+						<FormControlExtension
+							i:nil="true" />
+						<DataField>Name</DataField>
+						<DataSource>CallStackLineParams_CDT</DataSource>
+					</AxFormControl>
+				</Controls>
+				<DataSource>CallStackLineParams_CDT</DataSource>
+				<HighlightActive>No</HighlightActive>
+				<MultiSelect>No</MultiSelect>
+				<ShowRowLabels>No</ShowRowLabels>
+				<Style>SimpleReadOnly</Style>
+				<VisibleRows>5</VisibleRows>
+				<VisibleRowsMode>Fixed</VisibleRowsMode>
+			</AxFormControl>
+		</Controls>
+	</Design>
+	<Parts />
+</AxForm>
